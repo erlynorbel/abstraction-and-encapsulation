@@ -1,3 +1,5 @@
+// Lebron Paulmark D. Dimayacyac
+// C2B -- OOP 
 #include <iostream>
 #include <string>
 
