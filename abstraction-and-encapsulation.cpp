@@ -112,8 +112,8 @@ int main() {
     double amount;
 
     // Default account details (for example)
-    SavingsAccount savingsAccount("Lebron Dimayacyac", 5000.0);
-    CurrentAccount currentAccount("Lebron Dimayacyac", 3000.0);
+    SavingsAccount savingsAccount("Lebron Dimayacyac", 1000.0);
+    CurrentAccount currentAccount("Lebron Dimayacyac", 0.0);
 
     bool runningMain = true;
     while (runningMain) {
