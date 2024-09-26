@@ -2,6 +2,7 @@
 // C2B -- OOP 
 #include <iostream>
 #include <string>
+#include <limits>  // For numeric_limits
 
 using namespace std;
 
@@ -94,6 +95,18 @@ void showSubMenu() {
     cout << "Choose an option: ";
 }
 
+// Function to validate numeric input
+bool getValidAmount(double &amount) {
+    cin >> amount;
+    if (cin.fail()) {
+        cin.clear();  // Clear the error flag
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Discard invalid input
+        cout << "Invalid input! Please enter a numeric value.\n";
+        return false;  // Return false if input is invalid
+    }
+    return true;  // Return true if input is valid
+}
+
 int main() {
     int mainChoice, subChoice;
     double amount;
@@ -102,82 +115,91 @@ int main() {
     SavingsAccount savingsAccount("Lebron Dimayacyac", 5000.0);
     CurrentAccount currentAccount("Lebron Dimayacyac", 3000.0);
 
-    do {
+    bool runningMain = true;
+    while (runningMain) {
         showMainMenu();
         cin >> mainChoice;
 
+        if (mainChoice == 3) {  // Exit option
+            cout << "Exiting the system. Thank you!\n";
+            break;
+        }
+        bool running = true;
         switch (mainChoice) {
             case 1: // Savings Account
-                do {
+                while (running) {
                     showSubMenu();
                     cin >> subChoice;
+
+                    if (subChoice == 4) {  // Back to main menu
+                        break;
+                    }
 
                     switch (subChoice) {
                         case 1: // Deposit
                             cout << "Enter amount to deposit: ";
-                            cin >> amount;
-                            savingsAccount.deposit(amount);
+                            if (getValidAmount(amount)) {
+                                savingsAccount.deposit(amount);
+                            }
                             break;
 
                         case 2: // Withdraw
                             cout << "Enter amount to withdraw: ";
-                            cin >> amount;
-                            savingsAccount.withdraw(amount);
+                            if (getValidAmount(amount)) {
+                                savingsAccount.withdraw(amount);
+                            }
                             break;
 
                         case 3: // Check Balance
                             savingsAccount.checkBalance();
                             break;
 
-                        case 4: // Back to main menu
-                            break;
-
                         default:
+                            cin.clear();
                             cout << "Invalid option! Please try again.\n";
+                            cin.ignore();
                     }
-                } while (subChoice != 4);
+                }
                 break;
 
             case 2: // Current Account
-                do {
+                while (true) {
                     showSubMenu();
                     cin >> subChoice;
+
+                    if (subChoice == 4) {  // Back to main menu
+                        break;
+                    }
 
                     switch (subChoice) {
                         case 1: // Deposit
                             cout << "Enter amount to deposit: ";
-                            cin >> amount;
-                            currentAccount.deposit(amount);
+                            if (getValidAmount(amount)) {
+                                currentAccount.deposit(amount);
+                            }
                             break;
 
                         case 2: // Withdraw
                             cout << "Enter amount to withdraw: ";
-                            cin >> amount;
-                            currentAccount.withdraw(amount);
+                            if (getValidAmount(amount)) {
+                                currentAccount.withdraw(amount);
+                            }
                             break;
 
                         case 3: // Check Balance
                             currentAccount.checkBalance();
                             break;
 
-                        case 4: // Back to main menu
-                            break;
-
                         default:
                             cout << "Invalid option! Please try again.\n";
                     }
-                } while (subChoice != 4);
-                break;
-
-            case 3: // Exit
-                cout << "Exiting the system. Thank you!\n";
+                }
                 break;
 
             default:
                 cout << "Invalid option! Please choose again.\n";
         }
-
-    } while (mainChoice != 3);
+    }
 
     return 0;
 }
